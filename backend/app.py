@@ -1,5 +1,4 @@
-import json
-from json import JSONEncoder
+import random
 
 from flask import Flask, jsonify, request
 import models
@@ -45,7 +44,7 @@ def getCurrentSensorData():
             "type": "Feature",
             "properties": {
                 "id": s.name,
-                "occupied": False
+                "occupied": random.randint(0, 1)
             },
             "geometry": {
                 "type": "Point",
