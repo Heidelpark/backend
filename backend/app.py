@@ -1,29 +1,47 @@
-from flask import Flask
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+import json
+from json import JSONEncoder
+
+from flask import Flask, jsonify, request
+import models
+from database import init_db, db_session
 
 app = Flask(__name__)
-
-engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
-Base = declarative_base()
-Base.query = db_session.query_property()
-
-
-def init_db():
-    # import all modules here that might define models so that
-    # they will be registered properly on the metadata.  Otherwise
-    # you will have to import them first before calling init_db()
-    import models
-    Base.metadata.create_all(bind=engine)
-
 
 init_db()
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def hello():
-    return "Hello World!"
+    #spots = models.Spot.query.all()
+    return ""
+
+
+@app.route("/sensor", methods=['GET', 'POST'])
+def sensor():
+    # create new sensor
+    if request.method == 'POST':
+        data = request.get_json()
+        features = data.get("features")
+        for f in features:
+            name = f.get("properties").get("id")
+            point = f.get("geometry").get("coordinates")
+            spot = models.Spot(name=name, lat=point[0], lng=point[1])
+            db_session.add(spot)
+        db_session.commit()
+
+    return "Sensor information"
+
+
+@app.route("/sensorData", methods=['POST'])
+def createSensorData():
+    pass
+
+
+@app.route("/currentData", methods=['GET'])
+def getCurrentSensorData():
+    pass
+
+
+@app.route("/historyData", methods=['GET'])
+def getHistoryData():
+    pass

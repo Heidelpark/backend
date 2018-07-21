@@ -1,11 +1,14 @@
+import json
+
 from sqlalchemy import Column, Integer, String
-from backend.app import Base
+
+from database import Base
 
 
 class Spot(Base):
     __tablename__ = 'spots'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
+    name = Column(String(50))
     lat = Column(String(10))
     lng = Column(String(10))
 
@@ -14,12 +17,11 @@ class Spot(Base):
         self.lat = '%s' % lat
         self.lng = '%s' % lng
 
-
     @property
-    def dict(self):
-        return {
+    def __dict__(self):
+        return json.dumps({
             "id": self.id,
             "name": self.name,
             "lat": float(self.lat),
             "lng": float(self.lng)
-        }
+        })
