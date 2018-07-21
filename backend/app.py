@@ -36,7 +36,7 @@ def createSensorData():
     pass
 
 
-@app.route("/currentData", methods=['GET'])
+@app.route("/parkingState", methods=['GET'])
 def getCurrentSensorData():
     spots = []
     db_spots = models.Spot.query.all()
