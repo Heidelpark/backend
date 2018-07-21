@@ -1,11 +1,12 @@
 import random
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import models
 from database import init_db, db_session
 
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 init_db()
 
 
