@@ -12,12 +12,11 @@ init_db()
 
 @app.route("/", methods=['GET'])
 def hello():
-    #spots = models.Spot.query.all()
     return ""
 
 
-@app.route("/sensor", methods=['GET', 'POST'])
-def sensor():
+@app.route("/spots", methods=['GET', 'POST'])
+def spot():
     # create new sensor
     if request.method == 'POST':
         data = request.get_json()
@@ -39,7 +38,29 @@ def createSensorData():
 
 @app.route("/currentData", methods=['GET'])
 def getCurrentSensorData():
-    pass
+    spots = []
+    db_spots = models.Spot.query.all()
+    for s in db_spots:
+        spot = {
+            "type": "Feature",
+            "properties": {
+                "id": s.name,
+                "occupied": False
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    float(s.lat),
+                    float(s.lng)
+                ]
+            }
+        }
+        spots.append(spot)
+    data = {
+        "type": "FeatureCollection",
+        "features": spots
+    }
+    return jsonify(data)
 
 
 @app.route("/historyData", methods=['GET'])

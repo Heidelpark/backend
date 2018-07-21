@@ -17,11 +17,4 @@ class Spot(Base):
         self.lat = '%s' % lat
         self.lng = '%s' % lng
 
-    @property
-    def __dict__(self):
-        return json.dumps({
-            "id": self.id,
-            "name": self.name,
-            "lat": float(self.lat),
-            "lng": float(self.lng)
-        })
+
