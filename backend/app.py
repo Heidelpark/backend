@@ -10,6 +10,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 init_db()
 
 
+
 @app.route("/", methods=['GET'])
 def hello():
     return ""
@@ -66,3 +67,7 @@ def getCurrentSensorData():
 @app.route("/historyData", methods=['GET'])
 def getHistoryData():
     pass
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
