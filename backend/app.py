@@ -38,7 +38,9 @@ def spot():
 
 @app.route("/sensorData", methods=['POST'])
 def createSensorData():
-    pass
+    data = request.get_json()
+    res = influx_client.write_points(data)
+    return res
 
 
 @app.route("/parkingState", methods=['GET'])
