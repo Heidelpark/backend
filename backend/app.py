@@ -2,6 +2,8 @@ import random
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from influxdb import InfluxDBClient
+
 import models
 from database import init_db, db_session
 
@@ -9,6 +11,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 init_db()
 
+influx_client = InfluxDBClient('localhost', 8086, 'heidelpark', 'heidelpark', 'heidelpark')
+influx_client.create_database('heidelpark')
 
 
 @app.route("/", methods=['GET'])

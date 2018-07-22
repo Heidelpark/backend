@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  backend:
+    build: .
+    ports:
+      - 80:5000
+  influxdb:
+    image: influxdb
+    expose:
+      - 8083
+      - 8086
+    environment:
+      - INFLUXDB_DB=heidelpark
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+      - INFLUXDB_USER=heidelpark
+      - INFLUXDB_USER_PASSWORD=heidelpark
